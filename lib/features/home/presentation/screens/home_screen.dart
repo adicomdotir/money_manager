@@ -53,6 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.white,
                             ),
                           ),
+                          SizedBox(
+                            height: 16,
+                          ),
                           Text(
                             '۴.۵۰۰.۰۰۰ تومان',
                             style: TextStyle(
