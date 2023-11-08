@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class MainWidget extends StatefulWidget {
@@ -19,6 +20,7 @@ class _MainWidgetState extends State<MainWidget> {
   static const String timePeriod = 'timePeriod';
 
   String? selectedTab = day;
+  String label = '';
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +88,30 @@ class _MainWidgetState extends State<MainWidget> {
                       setState(() {
                         selectedTab = timePeriod;
                       });
+                      var picked = await showPersianDateRangePicker(
+                        context: context,
+                        builder: (context, child) {
+                          return Theme(
+                              data: ThemeData(
+                                  textTheme: const TextTheme(
+                                      bodyMedium: TextStyle(
+                                          fontFamily: 'IranYekan',
+                                          locale: Locale('fa')))),
+                              child: child!);
+                        },
+                        initialEntryMode: PDatePickerEntryMode.input,
+                        useRootNavigator: true,
+                        initialDateRange: JalaliRange(
+                          start: Jalali(1400, 1, 2),
+                          end: Jalali(1400, 1, 10),
+                        ),
+                        firstDate: Jalali(1385, 8),
+                        lastDate: Jalali(1450, 9),
+                      );
+                      setState(() {
+                        label =
+                            "${picked?.start.toDateTime().toPersianDate() ?? ""} - ${picked?.end.toDateTime().toPersianDate() ?? ""}";
+                      });
                     },
                     color: selectedTab == timePeriod
                         ? const Color(0xFFF50057).withOpacity(0.3)
@@ -101,18 +127,24 @@ class _MainWidgetState extends State<MainWidget> {
                 Visibility(
                   visible: selectedTab != day,
                   child: Text(
-                    getDate(selectedTab!).toPersianDate().toString(),
+                    selectedTab == timePeriod
+                        ? label
+                        : getDate(selectedTab!).toPersianDate().toString(),
                     style: const TextStyle(
                       color: Color(0xFF212121),
                     ),
                   ),
                 ),
                 Visibility(
-                    visible: selectedTab != day, child: const Text(' - ')),
-                Text(
-                  DateTime.now().toPersianDate().toString(),
-                  style: const TextStyle(
-                    color: Color(0xFF212121),
+                    visible: (selectedTab != day && selectedTab != timePeriod),
+                    child: const Text(' - ')),
+                Visibility(
+                  visible: selectedTab != timePeriod,
+                  child: Text(
+                    DateTime.now().toPersianDate().toString(),
+                    style: const TextStyle(
+                      color: Color(0xFF212121),
+                    ),
                   ),
                 ),
               ],
