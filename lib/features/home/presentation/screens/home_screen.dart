@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_manager/features/home/presentation/widgets/drawer_widget.dart';
 import 'package:money_manager/features/home/presentation/widgets/main_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -9,10 +10,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int? selectedTab = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
+      drawer: const DrawerWidget(),
       floatingActionButton: Container(
         width: 60,
         height: 60,
@@ -40,10 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset(
-                        'assets/icons/drawer1.png',
-                        color: Colors.white,
-                        width: 20,
+                      GestureDetector(
+                        onTap: () => scaffoldKey.currentState!.openDrawer(),
+                        child: Image.asset(
+                          'assets/icons/drawer1.png',
+                          color: Colors.white,
+                          width: 20,
+                        ),
                       ),
                       const Column(
                         children: [
