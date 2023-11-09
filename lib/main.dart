@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('fa'),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'IranYekan'),
-      initialRoute: ScreenNames.homeScreen,
+      initialRoute: ScreenNames.addTransactionScreen,
       routes: routes,
     );
   }

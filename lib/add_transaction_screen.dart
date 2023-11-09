@@ -183,56 +183,78 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             const SizedBox(
               height: 32,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 44 / 1080 * size.width),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF639f86),
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                  Expanded(
+                    child: DateBoxWidget(
+                      title: '11/7',
+                      subTitle: 'امروز',
+                      selected: true,
                     ),
-                    child: const Column(
+                  ),
+                  Expanded(
+                    child: DateBoxWidget(title: '11/6', subTitle: 'دیروز'),
+                  ),
+                  Expanded(
+                    child: DateBoxWidget(title: '11/1', subTitle: 'اخرین'),
+                  ),
+                  Expanded(
+                    child: Row(
                       children: [
-                        Text('11/7'),
-                        Text('today'),
+                        Spacer(),
+                        Icon(Icons.calendar_month),
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF639f86),
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                    child: const Column(
-                      children: [
-                        Text('11/6'),
-                        Text('yesterday'),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF639f86),
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                    child: const Column(
-                      children: [
-                        Text('10/29'),
-                        Text('last'),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  const Icon(Icons.calendar_month),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class DateBoxWidget extends StatelessWidget {
+  final String title;
+  final String subTitle;
+  final bool selected;
+
+  const DateBoxWidget({
+    super.key,
+    required this.subTitle,
+    required this.title,
+    this.selected = false,
+  });
+
+  final selectedStyle = const TextStyle(color: Colors.white);
+  final unSelectedStyle = const TextStyle(color: Colors.black);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: selected ? const Color(0xFFF50057) : Colors.transparent,
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: selected ? selectedStyle : unSelectedStyle,
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Text(
+            subTitle,
+            style: selected ? selectedStyle : unSelectedStyle,
+          ),
+        ],
       ),
     );
   }
