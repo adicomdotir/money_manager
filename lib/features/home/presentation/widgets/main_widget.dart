@@ -1,11 +1,26 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
-class MainWidget extends StatelessWidget {
+class MainWidget extends StatefulWidget {
   const MainWidget({
     super.key,
   });
+
+  @override
+  State<MainWidget> createState() => _MainWidgetState();
+}
+
+class _MainWidgetState extends State<MainWidget> {
+  static const String day = 'day';
+  static const String week = 'week';
+  static const String month = 'month';
+  static const String year = 'year';
+  static const String timePeriod = 'timePeriod';
+
+  String? selectedTab = day;
+  String label = '';
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +28,7 @@ class MainWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Container(
         width: double.maxFinite,
-        height: 380,
+        height: 360,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
@@ -27,49 +42,80 @@ class MainWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xFFF50057).withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(14)),
-                      alignment: Alignment.center,
-                      child: const Padding(
-                        padding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-                        child: Text(
-                          'روز',
-                          style: TextStyle(
-                            color: Color(0xFF212121),
-                          ),
+                TabWidget(
+                    title: 'روزانه',
+                    onTap: () {
+                      setState(() {
+                        selectedTab = day;
+                      });
+                    },
+                    color: selectedTab == day
+                        ? const Color(0xFFF50057).withOpacity(0.3)
+                        : Colors.transparent),
+                TabWidget(
+                    title: 'هفتگی',
+                    onTap: () {
+                      setState(() {
+                        selectedTab = week;
+                      });
+                    },
+                    color: selectedTab == week
+                        ? const Color(0xFFF50057).withOpacity(0.3)
+                        : Colors.transparent),
+                TabWidget(
+                    title: 'ماهانه',
+                    onTap: () {
+                      setState(() {
+                        selectedTab = month;
+                      });
+                    },
+                    color: selectedTab == month
+                        ? const Color(0xFFF50057).withOpacity(0.3)
+                        : Colors.transparent),
+                TabWidget(
+                    title: 'سالانه',
+                    onTap: () {
+                      setState(() {
+                        selectedTab = year;
+                      });
+                    },
+                    color: selectedTab == year
+                        ? const Color(0xFFF50057).withOpacity(0.3)
+                        : Colors.transparent),
+                TabWidget(
+                    title: 'بازه زمانی',
+                    onTap: () async {
+                      setState(() {
+                        selectedTab = timePeriod;
+                      });
+                      var picked = await showPersianDateRangePicker(
+                        context: context,
+                        builder: (context, child) {
+                          return Theme(
+                              data: ThemeData(
+                                  textTheme: const TextTheme(
+                                      bodyMedium: TextStyle(
+                                          fontFamily: 'IranYekan',
+                                          locale: Locale('fa')))),
+                              child: child!);
+                        },
+                        initialEntryMode: PDatePickerEntryMode.input,
+                        useRootNavigator: true,
+                        initialDateRange: JalaliRange(
+                          start: Jalali(1400, 1, 2),
+                          end: Jalali(1400, 1, 10),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Text(
-                  'هفته',
-                  style: TextStyle(
-                    color: Color(0xFF212121),
-                  ),
-                ),
-                const Text(
-                  'ماه',
-                  style: TextStyle(
-                    color: Color(0xFF212121),
-                  ),
-                ),
-                const Text(
-                  'سال',
-                  style: TextStyle(
-                    color: Color(0xFF212121),
-                  ),
-                ),
-                const Text(
-                  'بازه زمانی',
-                  style: TextStyle(
-                    color: Color(0xFF212121),
-                  ),
-                ),
+                        firstDate: Jalali(1385, 8),
+                        lastDate: Jalali(1450, 9),
+                      );
+                      setState(() {
+                        label =
+                            "${picked?.start.toDateTime().toPersianDate() ?? ""} - ${picked?.end.toDateTime().toPersianDate() ?? ""}";
+                      });
+                    },
+                    color: selectedTab == timePeriod
+                        ? const Color(0xFFF50057).withOpacity(0.3)
+                        : Colors.transparent),
               ],
             ),
             const SizedBox(
@@ -78,16 +124,27 @@ class MainWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'امروز',
-                  style: TextStyle(
-                    color: Color(0xFF212121),
+                Visibility(
+                  visible: selectedTab != day,
+                  child: Text(
+                    selectedTab == timePeriod
+                        ? label
+                        : getDate(selectedTab!).toPersianDate().toString(),
+                    style: const TextStyle(
+                      color: Color(0xFF212121),
+                    ),
                   ),
                 ),
-                Text(
-                  DateTime.now().toPersianDate(),
-                  style: const TextStyle(
-                    color: Color(0xFF212121),
+                Visibility(
+                    visible: (selectedTab != day && selectedTab != timePeriod),
+                    child: const Text(' - ')),
+                Visibility(
+                  visible: selectedTab != timePeriod,
+                  child: Text(
+                    DateTime.now().toPersianDate().toString(),
+                    style: const TextStyle(
+                      color: Color(0xFF212121),
+                    ),
                   ),
                 ),
               ],
@@ -162,5 +219,53 @@ class MainWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class TabWidget extends StatelessWidget {
+  const TabWidget({
+    super.key,
+    required this.title,
+    required this.color,
+    required this.onTap,
+  });
+  final String title;
+  final Color color;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+            color: color, borderRadius: BorderRadius.circular(12)),
+        alignment: Alignment.center,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+          child: Text(
+            title,
+            style: const TextStyle(
+              color: Color(0xFF212121),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+DateTime getDate(String date) {
+  switch (date) {
+    case 'day':
+      return DateTime.now();
+    case 'week':
+      return DateTime.now().subtract(const Duration(days: 7));
+    case 'month':
+      return DateTime.now().subtract(const Duration(days: 30));
+    case 'year':
+      return DateTime.now().subtract(const Duration(days: 365));
+    default:
+      return DateTime.now();
   }
 }
