@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_manager/core/common/size_extension.dart';
 import 'package:money_manager/features/home/presentation/widgets/drawer_widget.dart';
 import 'package:money_manager/features/home/presentation/widgets/main_widget.dart';
 
@@ -36,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Container(
               width: double.maxFinite,
-              height: 110,
+              height: context.convertForHeight(110),
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 6),
               color: const Color(0xFFF50057),
               child: Column(
@@ -147,13 +148,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 60,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: const [
-                            BoxShadow(
-                                color: Color.fromRGBO(127, 127, 202, 0.25),
-                                blurRadius: 10)
-                          ]),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromRGBO(127, 127, 202, 0.25),
+                            blurRadius: 10,
+                          ),
+                        ],
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -182,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -196,67 +199,79 @@ class ExpenseModel {
   final String iconPath;
   final bool isExpense;
 
-  ExpenseModel(
-      {required this.amount,
-      required this.category,
-      required this.iconPath,
-      required this.isExpense});
+  ExpenseModel({
+    required this.amount,
+    required this.category,
+    required this.iconPath,
+    required this.isExpense,
+  });
 }
 
 final List<ExpenseModel> expenses = [
   ExpenseModel(
-      amount: '۵۰.۰۰۰',
-      category: 'غذا',
-      iconPath: 'assets/icons/food.png',
-      isExpense: true),
+    amount: '۵۰.۰۰۰',
+    category: 'غذا',
+    iconPath: 'assets/icons/food.png',
+    isExpense: true,
+  ),
   ExpenseModel(
-      amount: '۴۵۰.۰۰۰',
-      category: 'خانه',
-      iconPath: 'assets/icons/home.png',
-      isExpense: false),
+    amount: '۴۵۰.۰۰۰',
+    category: 'خانه',
+    iconPath: 'assets/icons/home.png',
+    isExpense: false,
+  ),
   ExpenseModel(
-      amount: '۱۵۰.۰۰۰',
-      category: 'خانه',
-      iconPath: 'assets/icons/home.png',
-      isExpense: true),
+    amount: '۱۵۰.۰۰۰',
+    category: 'خانه',
+    iconPath: 'assets/icons/home.png',
+    isExpense: true,
+  ),
   ExpenseModel(
-      amount: '۶۰.۰۰۰',
-      category: 'رفت و آمد',
-      iconPath: 'assets/icons/taxi2.png',
-      isExpense: true),
+    amount: '۶۰.۰۰۰',
+    category: 'رفت و آمد',
+    iconPath: 'assets/icons/taxi2.png',
+    isExpense: true,
+  ),
   ExpenseModel(
-      amount: '۳۲۰.۰۰۰',
-      category: 'ورزش',
-      iconPath: 'assets/icons/dumbbell.png',
-      isExpense: false),
+    amount: '۳۲۰.۰۰۰',
+    category: 'ورزش',
+    iconPath: 'assets/icons/dumbbell.png',
+    isExpense: false,
+  ),
   ExpenseModel(
-      amount: '۵۰۰.۰۰۰',
-      category: 'لباس',
-      iconPath: 'assets/icons/jeans.png',
-      isExpense: true),
+    amount: '۵۰۰.۰۰۰',
+    category: 'لباس',
+    iconPath: 'assets/icons/jeans.png',
+    isExpense: true,
+  ),
   ExpenseModel(
-      amount: '۴۱۰.۰۰۰',
-      category: 'لباس',
-      iconPath: 'assets/icons/jeans.png',
-      isExpense: true),
+    amount: '۴۱۰.۰۰۰',
+    category: 'لباس',
+    iconPath: 'assets/icons/jeans.png',
+    isExpense: true,
+  ),
   ExpenseModel(
-      amount: '۵۰۰.۰۰۰',
-      category: 'لباس',
-      iconPath: 'assets/icons/jeans.png',
-      isExpense: false),
+    amount: '۵۰۰.۰۰۰',
+    category: 'لباس',
+    iconPath: 'assets/icons/jeans.png',
+    isExpense: false,
+  ),
   ExpenseModel(
-      amount: '۱۵۰.۰۰۰',
-      category: 'خانه',
-      iconPath: 'assets/icons/home.png',
-      isExpense: true),
+    amount: '۱۵۰.۰۰۰',
+    category: 'خانه',
+    iconPath: 'assets/icons/home.png',
+    isExpense: true,
+  ),
   ExpenseModel(
-      amount: '۶۰.۰۰۰',
-      category: 'رفت و آمد',
-      iconPath: 'assets/icons/taxi2.png',
-      isExpense: true),
+    amount: '۶۰.۰۰۰',
+    category: 'رفت و آمد',
+    iconPath: 'assets/icons/taxi2.png',
+    isExpense: true,
+  ),
   ExpenseModel(
-      amount: '۳۲۰.۰۰۰',
-      category: 'ورزش',
-      iconPath: 'assets/icons/dumbbell.png',
-      isExpense: false),
+    amount: '۳۲۰.۰۰۰',
+    category: 'ورزش',
+    iconPath: 'assets/icons/dumbbell.png',
+    isExpense: false,
+  ),
 ];
