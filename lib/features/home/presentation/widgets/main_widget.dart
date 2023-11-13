@@ -14,14 +14,19 @@ class MainWidget extends StatefulWidget {
 }
 
 class _MainWidgetState extends State<MainWidget> {
-  static const String day = 'day';
+  static const String dayString = 'day';
   static const String week = 'week';
-  static const String month = 'month';
-  static const String year = 'year';
+  static const String monthString = 'month';
+  static const String yearString = 'year';
   static const String timePeriod = 'timePeriod';
 
-  String? selectedTab = day;
+  String? selectedTab = dayString;
   String label = '';
+
+  Jalali? jalali = Jalali.now();
+  int? day = Jalali.now().day;
+  int? month = Jalali.now().month;
+  int? year = Jalali.now().year;
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +55,10 @@ class _MainWidgetState extends State<MainWidget> {
                   title: 'روزانه',
                   onTap: () {
                     setState(() {
-                      selectedTab = day;
+                      selectedTab = dayString;
                     });
                   },
-                  color: selectedTab == day
+                  color: selectedTab == dayString
                       ? const Color(0xFFF50057).withOpacity(0.3)
                       : Colors.transparent,
                 ),
@@ -72,10 +77,10 @@ class _MainWidgetState extends State<MainWidget> {
                   title: 'ماهانه',
                   onTap: () {
                     setState(() {
-                      selectedTab = month;
+                      selectedTab = monthString;
                     });
                   },
-                  color: selectedTab == month
+                  color: selectedTab == monthString
                       ? const Color(0xFFF50057).withOpacity(0.3)
                       : Colors.transparent,
                 ),
@@ -83,10 +88,10 @@ class _MainWidgetState extends State<MainWidget> {
                   title: 'سالانه',
                   onTap: () {
                     setState(() {
-                      selectedTab = year;
+                      selectedTab = yearString;
                     });
                   },
-                  color: selectedTab == year
+                  color: selectedTab == yearString
                       ? const Color(0xFFF50057).withOpacity(0.3)
                       : Colors.transparent,
                 ),
@@ -134,38 +139,106 @@ class _MainWidgetState extends State<MainWidget> {
             const SizedBox(
               height: 16,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Visibility(
-                  visible: selectedTab != day,
-                  child: Text(
-                    selectedTab == timePeriod
-                        ? label
-                        : getDate(selectedTab!).toPersianDate().toString(),
-                    style: const TextStyle(
-                      color: Color(0xFF212121),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: (selectedTab != day && selectedTab != timePeriod),
-                  child: const Text(' - '),
-                ),
-                Visibility(
-                  visible: selectedTab != timePeriod,
-                  child: Text(
-                    DateTime.now().toPersianDate().toString(),
-                    style: const TextStyle(
-                      color: Color(0xFF212121),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            // const SizedBox(
-            //   height: 16,
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Visibility(
+            //       visible: selectedTab != day,
+            //       child: Text(
+            //         selectedTab == timePeriod
+            //             ? label
+            //             : getDate(selectedTab!).toPersianDate().toString(),
+            //         style: const TextStyle(
+            //           color: Color(0xFF212121),
+            //         ),
+            //       ),
+            //     ),
+            //     Visibility(
+            //       visible: (selectedTab != day && selectedTab != timePeriod),
+            //       child: const Text(' - '),
+            //     ),
+            //     Visibility(
+            //       visible: selectedTab != timePeriod,
+            //       child: Text(
+            //         DateTime.now().toPersianDate().toString(),
+            //         style: const TextStyle(
+            //           color: Color(0xFF212121),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
             // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Row(
+                children: [
+                  Jalali(year!, month!, day!) == jalali
+                      ? const SizedBox()
+                      : GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              // if (Jalali(year!, month!, day! + 1) <=
+                              //     Jalali(year!, month!, jalali!.day)) {
+                              //   print(jalali!.day);
+                              day = day! + 1;
+
+                              if (day! > Jalali(year!, month!).monthLength) {
+                                day = 1;
+                                if (month! + 1 <= 12) {
+                                  month = month! + 1;
+                                } else {
+                                  day = 1;
+                                  month = 1;
+                                  year = year! + 1;
+                                }
+                              }
+                            });
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            size: 14,
+                          ),
+                        ),
+                  const Spacer(),
+                  Jalali(year!, month!, day!) == jalali
+                      ? const Text('امروز ')
+                      : const SizedBox(),
+                  Text(
+                    Jalali(year!, month!, day!).toDateTime().toPersianDate(),
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (day! - 1 <= Jalali(year!, month!).monthLength &&
+                            day! - 1 > 0) {
+                          day = day! - 1;
+                        } else {
+                          if (month! - 1 >= 1) {
+                            day = Jalali(
+                              year!,
+                              month! - 1,
+                            ).monthLength;
+                            month = month! - 1;
+                          } else {
+                            day = Jalali(
+                              year! - 1,
+                              12,
+                            ).monthLength;
+                            month = 12;
+                            year = year! - 1;
+                          }
+                        }
+                      });
+                    },
+                    child: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
               height: context.convertForHeight(250),
               child: Stack(
@@ -196,7 +269,7 @@ class _MainWidgetState extends State<MainWidget> {
                         ),
                         PieChartSectionData(
                           value: 20,
-                          color: Colors.brown.shade400,
+                          color: Colors.orange.shade400,
                           radius: 20,
                           showTitle: false,
                         ),
