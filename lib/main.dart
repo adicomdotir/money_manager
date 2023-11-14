@@ -25,8 +25,13 @@ class MyApp extends StatelessWidget {
       ],
       locale: const Locale('fa'),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'IranYekan'),
-      initialRoute: ScreenNames.homeScreen,
+      theme: ThemeData(
+        fontFamily: 'IranYekan',
+        textSelectionTheme: const TextSelectionThemeData(
+          selectionHandleColor: Color(0xFFF50057),
+        ),
+      ),
+      initialRoute: ScreenNames.addTransactionScreen,
       routes: routes,
     );
   }

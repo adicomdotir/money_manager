@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:money_manager/features/home/presentation/widgets/main_widget.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   const AddTransactionScreen({super.key});
@@ -112,107 +111,136 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 24,
-            ),
-            const Text('Account'),
-            const Text('Main'),
-            const Text('Categories'),
-            const SizedBox(
-              height: 24,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 44 / 1080 * size.width),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CategoryItem(
-                    size: size,
-                    color: const Color(0xFFf63635),
-                    title: 'Health',
-                  ),
-                  CategoryItem(
-                    size: size,
-                    color: const Color(0xFF67ae44),
-                    title: 'Health',
-                  ),
-                  CategoryItem(
-                    size: size,
-                    color: const Color(0xFF2e78cf),
-                    title: 'Health',
-                  ),
-                  CategoryItem(
-                    size: size,
-                    color: const Color(0xFFf1cb06),
-                    title: 'Health',
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 44 / 1080 * size.width),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CategoryItem(
-                    size: size,
-                    color: const Color(0xFFf63635),
-                    title: 'Health',
-                  ),
-                  CategoryItem(
-                    size: size,
-                    color: const Color(0xFF67ae44),
-                    title: 'Health',
-                  ),
-                  CategoryItem(
-                    size: size,
-                    color: const Color(0xFF2e78cf),
-                    title: 'Health',
-                  ),
-                  CategoryItem(
-                    size: size,
-                    color: const Color(0xFFf1cb06),
-                    title: 'Health',
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: DateBoxWidget(
-                      title: '11/7',
-                      subTitle: 'امروز',
-                      selected: true,
-                    ),
-                  ),
-                  Expanded(
-                    child: DateBoxWidget(title: '11/6', subTitle: 'دیروز'),
-                  ),
-                  Expanded(
-                    child: DateBoxWidget(title: '11/1', subTitle: 'اخرین'),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Spacer(),
-                        Icon(Icons.calendar_month),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            contentBuild(size),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget contentBuild(Size size) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('حساب'),
+          const Text(
+            'اصلی',
+            style: TextStyle(color: Color(0xFFF50057)),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          const Text('دسته بندی ها'),
+          const SizedBox(
+            height: 16,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              CategoryItem(
+                size: size,
+                color: const Color(0xFFf63635),
+                title: 'سلامت',
+              ),
+              CategoryItem(
+                size: size,
+                color: const Color(0xFF67ae44),
+                title: 'سلامت',
+              ),
+              CategoryItem(
+                size: size,
+                color: const Color(0xFF2e78cf),
+                title: 'سلامت',
+              ),
+              CategoryItem(
+                size: size,
+                color: const Color(0xFFf1cb06),
+                title: 'سلامت',
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 32,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              CategoryItem(
+                size: size,
+                color: const Color(0xFFf63635),
+                title: 'سلامت',
+              ),
+              CategoryItem(
+                size: size,
+                color: const Color(0xFF67ae44),
+                title: 'سلامت',
+              ),
+              CategoryItem(
+                size: size,
+                color: const Color(0xFF2e78cf),
+                title: 'سلامت',
+              ),
+              CategoryItem(
+                size: size,
+                color: const Color(0xFFf1cb06),
+                title: 'سلامت',
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 32,
+          ),
+          const Row(
+            children: [
+              Expanded(
+                child: DateBoxWidget(
+                  title: '11/7',
+                  subTitle: 'امروز',
+                  selected: true,
+                ),
+              ),
+              Expanded(
+                child: DateBoxWidget(title: '11/6', subTitle: 'دیروز'),
+              ),
+              Expanded(
+                child: DateBoxWidget(title: '11/1', subTitle: 'اخرین'),
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Spacer(),
+                    Icon(
+                      Icons.calendar_month,
+                      color: Color(0xFFF50057),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 32,
+          ),
+          const Text('توضیحات'),
+          const TextField(
+            cursorColor: Color(0xFFF50057),
+            decoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFF50057)),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFF50057)),
+              ),
+              fillColor: Colors.amber,
+              iconColor: Colors.amber,
+              focusColor: Colors.amber,
+              hoverColor: Colors.amber,
+              prefixIconColor: Colors.amber,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -248,7 +276,7 @@ class DateBoxWidget extends StatelessWidget {
             style: selected ? selectedStyle : unSelectedStyle,
           ),
           const SizedBox(
-            height: 8,
+            height: 4,
           ),
           Text(
             subTitle,
