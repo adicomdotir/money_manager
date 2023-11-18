@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           selectionHandleColor: Color(0xFFF50057),
         ),
       ),
-      initialRoute: ScreenNames.addTransactionScreen,
+      initialRoute: ScreenNames.homeScreen,
       routes: routes,
     );
   }
