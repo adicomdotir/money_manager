@@ -1,6 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:money_manager/core/common/size_extension.dart';
+import 'package:money_manager/features/home/presentation/widgets/build_days_text_widget.dart';
+import 'package:money_manager/features/home/presentation/widgets/build_month_Text_widget.dart';
+import 'package:money_manager/features/home/presentation/widgets/tab_widget.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
@@ -139,105 +142,13 @@ class _MainWidgetState extends State<MainWidget> {
             const SizedBox(
               height: 16,
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Visibility(
-            //       visible: selectedTab != day,
-            //       child: Text(
-            //         selectedTab == timePeriod
-            //             ? label
-            //             : getDate(selectedTab!).toPersianDate().toString(),
-            //         style: const TextStyle(
-            //           color: Color(0xFF212121),
-            //         ),
-            //       ),
-            //     ),
-            //     Visibility(
-            //       visible: (selectedTab != day && selectedTab != timePeriod),
-            //       child: const Text(' - '),
-            //     ),
-            //     Visibility(
-            //       visible: selectedTab != timePeriod,
-            //       child: Text(
-            //         DateTime.now().toPersianDate().toString(),
-            //         style: const TextStyle(
-            //           color: Color(0xFF212121),
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Row(
-                children: [
-                  Jalali(year!, month!, day!) == jalali
-                      ? const SizedBox()
-                      : GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              // if (Jalali(year!, month!, day! + 1) <=
-                              //     Jalali(year!, month!, jalali!.day)) {
-                              //   print(jalali!.day);
-                              day = day! + 1;
-
-                              if (day! > Jalali(year!, month!).monthLength) {
-                                day = 1;
-                                if (month! + 1 <= 12) {
-                                  month = month! + 1;
-                                } else {
-                                  day = 1;
-                                  month = 1;
-                                  year = year! + 1;
-                                }
-                              }
-                            });
-                          },
-                          child: const Icon(
-                            Icons.arrow_back_ios,
-                            size: 14,
-                          ),
-                        ),
-                  const Spacer(),
-                  Jalali(year!, month!, day!) == jalali
-                      ? const Text('امروز ')
-                      : const SizedBox(),
-                  Text(
-                    Jalali(year!, month!, day!).toDateTime().toPersianDate(),
-                  ),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (day! - 1 <= Jalali(year!, month!).monthLength &&
-                            day! - 1 > 0) {
-                          day = day! - 1;
-                        } else {
-                          if (month! - 1 >= 1) {
-                            day = Jalali(
-                              year!,
-                              month! - 1,
-                            ).monthLength;
-                            month = month! - 1;
-                          } else {
-                            day = Jalali(
-                              year! - 1,
-                              12,
-                            ).monthLength;
-                            month = 12;
-                            year = year! - 1;
-                          }
-                        }
-                      });
-                    },
-                    child: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 14,
-                    ),
-                  ),
-                ],
-              ),
+            Visibility(
+              visible: selectedTab == dayString,
+              child: const BuildDaysText(),
+            ),
+            Visibility(
+              visible: selectedTab == monthString,
+              child: const BuildMonthText(),
             ),
             SizedBox(
               height: context.convertForHeight(250),
@@ -316,47 +227,6 @@ class _MainWidgetState extends State<MainWidget> {
   }
 }
 
-class TabWidget extends StatelessWidget {
-  const TabWidget({
-    super.key,
-    required this.title,
-    required this.color,
-    required this.onTap,
-  });
-  final String title;
-  final Color color;
-  final Function() onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        alignment: Alignment.center,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            context.convertForWidth(12),
-            4,
-            context.convertForWidth(12),
-            4,
-          ),
-          child: Text(
-            title,
-            style: TextStyle(
-              color: const Color(0xFF212121),
-              fontSize: context.convertForHeight(14),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 DateTime getDate(String date) {
   switch (date) {
     case 'day':
@@ -369,5 +239,37 @@ DateTime getDate(String date) {
       return DateTime.now().subtract(const Duration(days: 365));
     default:
       return DateTime.now();
+  }
+}
+
+String numberToMonth(String number) {
+  switch (number) {
+    case '1':
+      return 'فروردین';
+    case '2':
+      return 'اردیبهشت';
+    case '3':
+      return 'خرداد';
+    case '4':
+      return 'تیر';
+    case '5':
+      return 'مرداد';
+    case '6':
+      return 'شهریور';
+    case '7':
+      return 'مهر';
+    case '8':
+      return 'آبان';
+    case '9':
+      return 'آذر';
+    case '10':
+      return 'دی';
+    case '11':
+      return 'بهمن';
+    case '12':
+      return 'اسفند';
+
+    default:
+      return '';
   }
 }
