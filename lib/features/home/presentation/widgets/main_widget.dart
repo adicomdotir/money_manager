@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:money_manager/core/common/size_extension.dart';
 import 'package:money_manager/features/home/presentation/widgets/build_days_text_widget.dart';
 import 'package:money_manager/features/home/presentation/widgets/build_month_Text_widget.dart';
+import 'package:money_manager/features/home/presentation/widgets/build_weeks_widget.dart';
 import 'package:money_manager/features/home/presentation/widgets/tab_widget.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
@@ -149,6 +150,10 @@ class _MainWidgetState extends State<MainWidget> {
             Visibility(
               visible: selectedTab == monthString,
               child: const BuildMonthText(),
+            ),
+            Visibility(
+              visible: selectedTab == week,
+              child: const BuildWeeksText(),
             ),
             SizedBox(
               height: context.convertForHeight(250),
