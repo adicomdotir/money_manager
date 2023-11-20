@@ -26,6 +26,10 @@ class MyApp extends StatelessWidget {
       locale: const Locale('fa'),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        colorScheme: const ColorScheme.light(
+          background: Color(0xFFF50057),
+          onBackground: Colors.white,
+        ),
         fontFamily: 'IranYekan',
         textSelectionTheme: const TextSelectionThemeData(
           selectionHandleColor: Color(0xFFF50057),

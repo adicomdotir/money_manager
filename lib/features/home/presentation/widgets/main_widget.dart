@@ -105,12 +105,11 @@ class _MainWidgetState extends State<MainWidget> {
                       context: context,
                       builder: (context, child) {
                         return Theme(
-                          data: ThemeData(
-                            textTheme: const TextTheme(
-                              bodyMedium: TextStyle(
-                                fontFamily: 'IranYekan',
-                                locale: Locale('fa'),
-                              ),
+                          data: Theme.of(context).copyWith(
+                            colorScheme: const ColorScheme.light(
+                              primary: Color(0xFFF50057),
+                              onPrimary: Colors.white,
+                              // onSurface: Colors.blueAccent,
                             ),
                           ),
                           child: child!,
@@ -154,6 +153,10 @@ class _MainWidgetState extends State<MainWidget> {
             Visibility(
               visible: selectedTab == yearString,
               child: const BuildYearsText(),
+            ),
+            Visibility(
+              visible: selectedTab == timePeriod,
+              child: Center(child: Text(label)),
             ),
             SizedBox(
               height: context.convertForHeight(250),
