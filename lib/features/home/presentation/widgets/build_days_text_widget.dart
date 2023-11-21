@@ -39,9 +39,13 @@ class _BuildDaysTextState extends State<BuildDaysText> {
                       }
                     });
                   },
-                  child: const Icon(
-                    Icons.arrow_back_ios,
-                    size: 14,
+                  child: const SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      size: 14,
+                    ),
                   ),
                 ),
           const Spacer(),
@@ -76,9 +80,13 @@ class _BuildDaysTextState extends State<BuildDaysText> {
                 }
               });
             },
-            child: const Icon(
-              Icons.arrow_forward_ios,
-              size: 14,
+            child: const SizedBox(
+              width: 25,
+              height: 25,
+              child: Icon(
+                Icons.arrow_forward_ios,
+                size: 14,
+              ),
             ),
           ),
         ],
