@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:money_manager/features/home/presentation/screens/home_screen.dart';
+import 'package:money_manager/features/home/presentation/widgets/income_expense_list_widget.dart';
 
 class MainList extends StatelessWidget {
   const MainList({

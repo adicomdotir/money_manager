@@ -12,7 +12,9 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 class MainWidget extends StatefulWidget {
   const MainWidget({
     super.key,
+    required this.amount,
   });
+  final String amount;
 
   @override
   State<MainWidget> createState() => _MainWidgetState();
@@ -216,10 +218,10 @@ class _MainWidgetState extends State<MainWidget> {
                           color: Colors.white,
                           shape: BoxShape.circle,
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            '۲۵۰.۰۰۰ تومان',
-                            style: TextStyle(fontSize: 14),
+                            widget.amount,
+                            style: const TextStyle(fontSize: 14),
                           ),
                         ),
                       ),
